@@ -1,0 +1,22 @@
+{
+  "name": "projectchatvonix",
+  "version": "1.0.0",
+  "description": "Um chatbot usando OpenAI e Node.js",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "keywords": ["chatbot", "openai", "nodejs", "express"],
+  "author": "Wesley Alves",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-fetch": "^2.6.7",
+    "dotenv": "^16.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
+

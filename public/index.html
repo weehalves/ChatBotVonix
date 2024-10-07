@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Vonix</title>
+    <style>
+        /* Reset básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 600px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background-color: #005f99; /* Azul escuro */
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .chat-messages {
+            padding: 20px;
+            height: 400px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background-color: #ff9800; /* Laranja */
+            color: #fff;
+        }
+
+        .bot-message {
+            align-self: flex-start;
+            background-color: #e0f7fa; /* Azul claro */
+            color: #333;
+        }
+
+        .chat-input {
+            display: flex;
+            border-top: 1px solid #ddd;
+        }
+
+        .chat-input input {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            outline: none;
+            font-size: 1em;
+        }
+
+        .chat-input button {
+            background-color: #005f99; /* Azul escuro */
+            color: #fff;
+            border: none;
+            padding: 0 20px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .chat-input button:hover {
+            background-color: #004080;
+        }
+
+        /* Scroll suave */
+        .chat-messages {
+            scroll-behavior: smooth;
+        }
+
+        /* Adiciona espaçamento interno no container de mensagens */
+        .chat-messages {
+            padding-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chat-container">
+        <div class="chat-header">
+            Chatbot Vonix
+        </div>
+
+        <div class="chat-messages" id="chat-messages">
+            <!-- Mensagens serão inseridas aqui dinamicamente -->
+        </div>
+
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Digite sua mensagem..." />
+            <button onclick="sendMessage()">Enviar</button>
+        </div>
+    </div>
+
+    <script>
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+
+        function addMessageToChat(message, isUser = true) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message');
+            messageElement.classList.add(isUser ? 'user-message' : 'bot-message');
+            messageElement.textContent = message;
+            chatMessages.appendChild(messageElement);
+            chatMessages.scrollTop = chatMessages.scrollHeight; // Rolagem automática para a última mensagem
+        }
+
+        async function sendMessage() {
+            const userMessage = userInput.value;
+            if (!userMessage) return;
+
+            // Exibe a mensagem do usuário
+            addMessageToChat(userMessage, true);
+
+            // Limpa o campo de entrada
+            userInput.value = '';
+
+            try {
+                // Envia a mensagem para o backend
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message: userMessage })
+                });
+
+                const data = await response.json();
+
+                // Exibe a resposta do bot
+                addMessageToChat(data.response, false);
+            } catch (error) {
+                console.error('Erro ao obter resposta do bot:', error);
+                addMessageToChat('Erro ao obter resposta do bot.', false);
+            }
+        }
+
+        // Permitir enviar mensagem com a tecla Enter
+        userInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+
+</body>
+</html>
