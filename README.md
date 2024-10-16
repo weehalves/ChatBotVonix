@@ -37,7 +37,8 @@ Substitua your_openai_api_key pela sua chave real da OpenAI.
 
 ### 5. Inicie a aplicação
 - Para rodar o servidor:
-npm start
+npm install
+node src/server.js
 - Para rodar em modo de desenvolvimento (com recarga automática):
 npm run dev
 

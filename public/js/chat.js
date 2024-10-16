@@ -1,33 +1,26 @@
-app.post('/chat', async (req, res) => {
-    const userMessage = req.body.message;
+async function sendMessage() {
+    const messageInput = document.getElementById('messageInput');
+    const userMessage = messageInput.value;
 
-    if (!userMessage) {
-        return res.status(400).json({ error: 'Por favor, forneça uma mensagem.' });
-    }
+    const responseContainer = document.getElementById('responseContainer');
 
     try {
-        const response = await fetch('https://api.openai.com/v1/completions', {
+        const response = await fetch('/chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
             },
-            body: JSON.stringify({
-                model: 'gpt-3.5-turbo',
-                prompt: userMessage,
-                max_tokens: 100
-            })
+            body: JSON.stringify({ message: userMessage }),
         });
 
-        if (!response.ok) {
-            const errorDetails = await response.json();
-            throw new Error(`Erro ao se comunicar com a API: ${response.status}, ${errorDetails.error.message}`);
-        }
-
         const data = await response.json();
-        res.json({ response: data.choices[0].text });
+
+        if (data.response) {
+            responseContainer.innerHTML += `<p><strong>Bot:</strong> ${data.response}</p>`;
+        } else {
+            responseContainer.innerHTML += `<p><strong>Error:</strong> ${data.error}</p>`;
+        }
     } catch (error) {
-        console.error('Erro ao processar a requisição:', error.message);
-        res.status(500).json({ error: `Erro interno do servidor: ${error.message}` });
+        responseContainer.innerHTML += `<p><strong>Error:</strong> Não foi possível obter a resposta.</p>`;
     }
-});
+}
