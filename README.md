@@ -17,11 +17,11 @@ Antes de começar, certifique-se de ter os seguintes itens instalados em sua má
 
 ### 1. Clone o repositório
 
-git clone https://github.com/seu-usuario/projectchatvonix.git
+git clone https://github.com/weehalves/ChatBotVonix.git
 
 ### 2. Entre no diretório do projeto
 
-cd projectchatvonix
+cd ChatBotVonix
 
 ### 3. Instale as dependências
 
