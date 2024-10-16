@@ -1,29 +1,27 @@
 const axios = require('axios');
 require('dotenv').config();
 
-const apiKey = process.env.OPENAI_API_KEY;
+const apiKey = process.env.OPENAI_API_KEY; // Certifique-se de que a chave API está correta
+const apiUrl = 'https://api.openai.com/v1/chat/completions';
 
-async function getOpenAIResponse(prompt) {
+async function getChatResponse(message) {
     try {
-        const response = await axios.post(
-            'https://api.openai.com/v1/completions',
-            {
-                model: "gpt-3.5-turbo", // Use o modelo correto
-                prompt: prompt,
-                max_tokens: 100,
-            },
-            {
-                headers: {
-                    'Authorization': `Bearer ${apiKey}`,
-                    'Content-Type': 'application/json',
-                },
+        const response = await axios.post(apiUrl, {
+            model: "gpt-3.5-turbo", // Modelo a ser utilizado
+            messages: [{ role: "user", content: message }]
+        }, {
+            headers: {
+                'Authorization': `Bearer ${apiKey}`,
+                'Content-Type': 'application/json'
             }
-        );
-        return response.data.choices[0].text;
+        });
+
+        return response.data.choices[0].message.content;
     } catch (error) {
         console.error('Erro ao se comunicar com a API:', error.response ? error.response.data : error.message);
         throw new Error('Erro ao se comunicar com a API');
     }
 }
 
-module.exports = { getOpenAIResponse };
+module.exports = { getChatResponse };
+

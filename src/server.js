@@ -1,24 +1,19 @@
 const express = require('express');
-const { getOpenAIResponse } = require('./api');
-const path = require('path');
-require('dotenv').config();
+const bodyParser = require('body-parser');
+const { getChatResponse } = require('./api');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json());
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(bodyParser.json());
+app.use(express.static('public'));
 
 app.post('/chat', async (req, res) => {
-    const { message } = req.body;
-
-    if (!message) {
-        return res.status(400).json({ error: 'Mensagem não fornecida.' });
-    }
+    const userMessage = req.body.message;
 
     try {
-        const response = await getOpenAIResponse(message);
-        res.json({ response });
+        const botResponse = await getChatResponse(userMessage);
+        res.json({ response: botResponse });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -27,3 +22,4 @@ app.post('/chat', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
+
