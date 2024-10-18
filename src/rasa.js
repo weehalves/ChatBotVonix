@@ -6,18 +6,16 @@ async function getRasaResponse(contexto, userMessage) {
     try {
         // Enviar a mensagem do usuário para o Rasa no endpoint REST
         const response = await axios.post('http://localhost:5005/webhooks/rest/webhook', {
-            sender: "user",         // ID do usuário (pode ser um ID único)
-            message: userMessage,   // Mensagem do usuário
-            metadata: { contexto }   // Metadados, se necessário
+            sender: "user",
+            message: userMessage,
+            metadata: { contexto }
         });
 
-        // Extrair a resposta do Rasa
+        // Extrair o texto da primeira resposta do Rasa, se disponível
         const rasaResponse = response.data[0]?.text || "Desculpe, não consegui entender.";
         
-        // Log para depuração
-        console.log('Resposta do Rasa:', response.data);
-        
-        return rasaResponse;
+        console.log('Resposta do Rasa:', rasaResponse);
+        return rasaResponse; // Retorna diretamente a resposta como string
     } catch (error) {
         console.error('Erro ao se comunicar com o Rasa:', error);
         return "Desculpe, houve um erro ao se comunicar com o sistema de atendimento.";
@@ -25,4 +23,3 @@ async function getRasaResponse(contexto, userMessage) {
 }
 
 module.exports = { getRasaResponse };
-

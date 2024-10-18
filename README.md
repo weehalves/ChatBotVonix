@@ -62,6 +62,9 @@ node src/server.js
 
 ## Funcionamento
 O usuário envia uma mensagem através da interface do chatbot.
+
 A mensagem é enviada para a API da OpenAI, que classifica o contexto e gera uma resposta inicial.
+
 Em seguida, o contexto e a mensagem são enviados para o Rasa, que fornece uma resposta final com base no contexto identificado.
+
 As respostas da OpenAI e do Rasa são exibidas na interface do chatbot.

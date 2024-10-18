@@ -1,7 +1,7 @@
 // src/server.js
 const express = require('express');
 const bodyParser = require('body-parser');
-const path = require('path'); // Módulo para lidar com caminhos
+const path = require('path');
 const { getChatbotResponse } = require('./api');
 const { getRasaResponse } = require('./rasa');
 require('dotenv').config();
@@ -22,29 +22,30 @@ app.get('/', (req, res) => {
 app.post('/chat', async (req, res) => {
     const userMessage = req.body.message;
 
-    if (!userMessage) {
-        return res.status(400).json({ error: "Mensagem do usuário não fornecida." });
-    }
-
     try {
         // Obter resposta e contexto do OpenAI
-        const { contexto, resposta: openAiResponse } = await getChatbotResponse(userMessage);
-        console.log('Contexto:', contexto); // Log do contexto para depuração
-        console.log('Resposta OpenAI:', openAiResponse); // Log da resposta do OpenAI
+        const { contexto } = await getChatbotResponse(userMessage);
+        console.log('Contexto:', contexto);
 
         // Enviar o contexto e a mensagem do usuário para o Rasa
         const rasaResponse = await getRasaResponse(contexto, userMessage);
-        console.log('Resposta Rasa:', rasaResponse); // Log da resposta do Rasa
+        console.log('Resposta do Rasa:', rasaResponse);
 
-        // Retornar a resposta ao usuário
-        res.json({ openAiResponse, rasaResponse, contexto });
+        // Certificar que a resposta final está correta antes de enviar ao frontend
+        const respostaFinal = rasaResponse || "Desculpe, não consegui entender.";
+
+        console.log('Resposta enviada ao frontend:', respostaFinal);
+
+        // Retornar a resposta ao usuário com a chave correta
+        res.json({ resposta: respostaFinal });
     } catch (error) {
-        console.error('Erro no processamento da conversa:', error);
-        res.status(500).json({ error: "Erro interno do servidor." });
+        console.error('Erro no processamento:', error);
+        res.status(500).json({ resposta: 'Erro ao processar a solicitação.' });
     }
 });
 
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
 });
+
 
