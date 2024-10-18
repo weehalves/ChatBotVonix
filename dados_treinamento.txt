@@ -8,3 +8,8 @@ Meu computador deu problema;suporte_tecnico
 oi;saudacao
 oi;saudacao
 Olá;saudacao
+Oi;saudacao
+Quero minha nota fiscal;cobrancas
+Oi;saudacao
+oi;saudacao
+To precisando da minha nota fiscal tiozao, ta tirando?;cobrancas
