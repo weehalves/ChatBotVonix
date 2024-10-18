@@ -3,7 +3,22 @@
 Este é um projeto de chatbot integrado que utiliza a API da OpenAI para entender o contexto das mensagens do usuário e o Rasa para fornecer respostas automatizadas. O objetivo é criar um assistente virtual que possa lidar com diferentes cenários de atendimento ao cliente, como Suporte Técnico, Vendas e Cobranças.
 
 ## Estrutura do Projeto
-ProjectVonix/ │ ├── public/ │ ├── css/ │ │ └── styles.css # Arquivo CSS para estilização │ ├── js/ │ │ └── chat.js # Arquivo JavaScript para a lógica do chatbot │ └── index.html # Página HTML principal │ ├── src/ │ ├── api.js # Código para se comunicar com a API da OpenAI │ ├── rasa.js # Código para se comunicar com o Rasa │ └── server.js # Configuração e inicialização do servidor │ ├── .env # Variáveis de ambiente (chave da API) ├── .gitignore # Arquivos e pastas a serem ignorados pelo Git ├── package.json # Dependências e scripts do Node.js ├── package-lock.json # Detalhes das dependências instaladas └── README.md # Documentação do projeto
+ProjectVonix/ │ 
+├── public/ │ 
+├── css/ │ 
+│ └── styles.css # Arquivo CSS para estilização 
+│ ├── js/ │ 
+│ └── chat.js # Arquivo JavaScript para a lógica do chatbot 
+│ └── index.html # Página HTML principal │ 
+├── src/ │ 
+├── api.js # Código para se comunicar com a API da OpenAI │ 
+├── rasa.js # Código para se comunicar com o Rasa 
+│ └── server.js # Configuração e inicialização do servidor │ 
+├── .env # Variáveis de ambiente (chave da API) 
+├── .gitignore # Arquivos e pastas a serem ignorados pelo Git 
+├── package.json # Dependências e scripts do Node.js 
+├── package-lock.json # Detalhes das dependências instaladas 
+└── README.md # Documentação do projeto
 
 ## Pré-requisitos
 
