@@ -1,50 +1,44 @@
-# Chatbot Vonix
+# ProjectVonix
 
-Este projeto é um MVP de um chatbot simples usando a API da OpenAI com Node.js. O bot interage com os usuários via texto e responde com base nas mensagens enviadas.
+Este é um projeto de chatbot integrado que utiliza a API da OpenAI para entender o contexto das mensagens do usuário e o Rasa para fornecer respostas automatizadas. O objetivo é criar um assistente virtual que possa lidar com diferentes cenários de atendimento ao cliente, como Suporte Técnico, Vendas e Cobranças.
 
-## Funcionalidades
-- Interação via chat em tempo real.
-- Respostas geradas usando a API da OpenAI.
-- Interface simples com design nas cores azul e laranja.
+## Estrutura do Projeto
+ProjectVonix/ │ ├── public/ │ ├── css/ │ │ └── styles.css # Arquivo CSS para estilização │ ├── js/ │ │ └── chat.js # Arquivo JavaScript para a lógica do chatbot │ └── index.html # Página HTML principal │ ├── src/ │ ├── api.js # Código para se comunicar com a API da OpenAI │ ├── rasa.js # Código para se comunicar com o Rasa │ └── server.js # Configuração e inicialização do servidor │ ├── .env # Variáveis de ambiente (chave da API) ├── .gitignore # Arquivos e pastas a serem ignorados pelo Git ├── package.json # Dependências e scripts do Node.js ├── package-lock.json # Detalhes das dependências instaladas └── README.md # Documentação do projeto
 
 ## Pré-requisitos
-Antes de começar, certifique-se de ter os seguintes itens instalados em sua máquina:
-- [Node.js](https://nodejs.org/en/) (versão 14 ou superior)
-- NPM (geralmente instalado junto com o Node.js)
-- Uma chave de API da OpenAI
+
+Certifique-se de ter as seguintes dependências instaladas:
+
+- [Node.js](https://nodejs.org/) (versão 14 ou superior)
+- [Rasa](https://rasa.com/) (instalação do Rasa necessária)
 
 ## Instalação
 
-### 1. Clone o repositório
+1. Clone este repositório:
 
 git clone https://github.com/weehalves/ChatBotVonix.git
 
-### 2. Entre no diretório do projeto
+2. Navegue até o diretório do projeto:
 
-cd ChatBotVonix
+cd ProjectVonix
 
-### 3. Instale as dependências
+3. Instale as dependências:
 
 npm install
 
-### 4. Configure as variáveis de ambiente
+4. Configure suas variáveis de ambiente criando um arquivo .env na raiz do projeto e adicione sua chave da API da OpenAI:
 
-Crie um arquivo .env no diretório raiz do projeto e adicione sua chave de API da OpenAI:
+OPENAI_API_KEY=sua_chave_da_api
+PORT=3000  # ou qualquer outra porta que você preferir
 
-OPENAI_API_KEY=your_openai_api_key
+5. Inicie o servidor:
 
-Substitua your_openai_api_key pela sua chave real da OpenAI.
-
-### 5. Inicie a aplicação
-- Para rodar o servidor:
-npm install
 node src/server.js
-- Para rodar em modo de desenvolvimento (com recarga automática):
-npm run dev
 
-### 6. Acesse a aplicação
-Abra o navegador e acesse:
+6. Abra seu navegador e acesse http://localhost:3000 para interagir com o chatbot.
 
-http://localhost:3000
-
-Você verá a interface do chatbot onde poderá interagir com ele.
+## Funcionamento
+O usuário envia uma mensagem através da interface do chatbot.
+A mensagem é enviada para a API da OpenAI, que classifica o contexto e gera uma resposta inicial.
+Em seguida, o contexto e a mensagem são enviados para o Rasa, que fornece uma resposta final com base no contexto identificado.
+As respostas da OpenAI e do Rasa são exibidas na interface do chatbot.

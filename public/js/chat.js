@@ -25,14 +25,17 @@ async function sendMessage() {
 
         const data = await response.json();
         if (response.ok) {
-            chatBox.innerHTML += `<div class="bot-message">Bot: ${data.response}</div>`;
+            chatBox.innerHTML += `<div class="bot-message">Bot: ${data.openAiResponse}</div>`;
+            chatBox.innerHTML += `<div class="bot-message">Rasa: ${data.rasaResponse}</div>`;
         } else {
             chatBox.innerHTML += `<div class="bot-message">Bot: ${data.error}</div>`;
         }
     } catch (error) {
+        console.error('Erro ao se comunicar com a API:', error);
         chatBox.innerHTML += `<div class="bot-message">Bot: Erro ao se comunicar com a API</div>`;
     }
 
     // Scroll para o final da caixa de chat
     chatBox.scrollTop = chatBox.scrollHeight;
 }
+
