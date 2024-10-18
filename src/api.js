@@ -5,7 +5,7 @@ const axios = require('axios');
 async function getChatbotResponse(userMessage) {
     try {
         // Prompt modificado para pedir apenas o contexto
-        const prompt = `Classifique a seguinte mensagem em um dos seguintes contextos: "suporte técnico", "vendas", ou "cobrança". Mensagem: "${userMessage}". Responda apenas com o contexto.`;
+        const prompt = `Classifique a seguinte mensagem em um dos seguintes contextos: "suporte técnico", "vendas", "cobrança", "saudação", ou "despedida". Mensagem: "${userMessage}". Responda apenas com o contexto. Se não for algo relacionado a isso, retorne "desconhecido".`;
         
         const response = await axios.post('https://api.openai.com/v1/chat/completions', {
             model: "gpt-3.5-turbo",
@@ -31,7 +31,11 @@ async function getChatbotResponse(userMessage) {
             contexto = "vendas";
         } else if (openAiResponse === "cobrança") {
             contexto = "cobrancas";
-        }
+        } else if (openAiResponse === "saudação") {
+            contexto = "saudacao";
+        } else if (openAiResponse === "despedida") {
+            contexto = "despedida";
+        }        
 
         return { contexto }; // Retorna apenas o contexto
     } catch (error) {
