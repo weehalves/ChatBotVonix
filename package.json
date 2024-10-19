@@ -1,7 +1,7 @@
 {
   "name": "projectchatvonix",
   "version": "1.0.0",
-  "description": "Um chatbot usando OpenAI e Node.js",
+  "description": "Um chatbot usando OpenAI, Rasa e Node.js",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",

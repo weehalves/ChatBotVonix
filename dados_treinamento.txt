@@ -13,3 +13,19 @@ Quero minha nota fiscal;cobrancas
 Oi;saudacao
 oi;saudacao
 To precisando da minha nota fiscal tiozao, ta tirando?;cobrancas
+teste;desconhecido
+teste;desconhecido
+valor de 21,40 o que é isso?;desconhecido
+valor de 21,40 o que é isso?;desconhecido
+valor de 21,40 o que é isso?;desconhecido
+valor de 21,40 o que é isso?;desconhecido
+valor de 21,40 o que é isso?;desconhecido
+valor de 21,40 o que é isso?;desconhecido
+valor de 21,40 o que é isso?;desconhecido
+valor de 21,40 o que é isso?;cobrancas
+valor de 21,40 o que é isso?;cobrancas
+teste;desconhecido
+teste;desconhecido
+valor de 21,40 o que é isso?;falar sobre cobrancas
+valor de 21,40 o que é isso?;falar sobre cobrancas
+valor de 21,40 o que é isso?;Quero esclarecer uma cobrança

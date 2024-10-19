@@ -1,4 +1,3 @@
-// src/server.js
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -37,28 +36,53 @@ function salvarMensagemEContexto(mensagem, contexto) {
 app.post('/chat', async (req, res) => {
     const userMessage = req.body.message;
 
+    // Validação da mensagem do usuário
+    if (!userMessage || typeof userMessage !== 'string') {
+        return res.status(400).json({ resposta: 'Mensagem inválida.' });
+    }
+
     try {
-        // Obter resposta e contexto do OpenAI
-        const { contexto } = await getChatbotResponse(userMessage);
-        console.log('Contexto:', contexto);
+        // Tenta obter resposta do Rasa inicialmente
+        const contextoRasa = await getRasaResponse('desconhecido', userMessage);
+        console.log('Resposta do Rasa na primeira validação:', contextoRasa);
 
-        // Salvar a mensagem do usuário e o contexto detectado
-        salvarMensagemEContexto(userMessage, contexto);
+        // Se o Rasa retornar "desconhecido", consultamos a OpenAI
+        if (contextoRasa.toLowerCase() === 'desconhecido') {
+            console.log('Contexto desconhecido, consultando OpenAI...');
 
-        // Enviar o contexto e a mensagem do usuário para o Rasa
-        const rasaResponse = await getRasaResponse(contexto, userMessage);
-        console.log('Resposta do Rasa:', rasaResponse);
+            // Consultar a OpenAI para identificar o contexto
+            const contextoOpenAI = await getChatbotResponse(userMessage);
+            console.log('Contexto identificado pela OpenAI:', contextoOpenAI.contexto);
 
-        // Certificar que a resposta final está correta antes de enviar ao frontend
-        const respostaFinal = rasaResponse || "Desculpe, não consegui entender.";
+            // Salvar apenas quando a OpenAI identificar um contexto
+            salvarMensagemEContexto(userMessage, contextoOpenAI.contexto);
 
-        console.log('Resposta enviada ao frontend:', respostaFinal);
+            // Se a OpenAI também retornar desconhecido, envia uma resposta padrão
+            if (contextoOpenAI.contexto.toLowerCase() === 'desconhecido') {
+                console.log('OpenAI também não entendeu, retornando mensagem padrão.');
+                return res.json({ resposta: 'Desculpe, não entendi sua mensagem. Pode me esclarecer melhor?' });
+            }
 
-        // Retornar a resposta ao usuário com a chave correta
-        res.json({ resposta: respostaFinal });
+            // Consultar Rasa novamente com o contexto da OpenAI
+            const rasaResponse = await getRasaResponse(contextoOpenAI.contexto, userMessage);
+            console.log('Resposta do Rasa após consulta à OpenAI:', rasaResponse);
+
+            // Se o Rasa também não entender, retornar a mensagem padrão
+            if (rasaResponse.toLowerCase() === 'desconhecido') {
+                return res.json({ resposta: 'Desculpe, não entendi sua mensagem. Pode me esclarecer melhor?' });
+            }
+
+            // Retornar a resposta ao usuário
+            return res.json({ resposta: rasaResponse });
+        } else {
+            // Se o Rasa já retornou um contexto válido, retornamos essa resposta
+            console.log('Contexto conhecido, retornando resposta do Rasa.');
+            return res.json({ resposta: contextoRasa });
+        }
+
     } catch (error) {
         console.error('Erro no processamento:', error);
-        res.status(500).json({ resposta: 'Erro ao processar a solicitação.' });
+        return res.status(500).json({ resposta: 'Erro ao processar a solicitação.' });
     }
 });
 

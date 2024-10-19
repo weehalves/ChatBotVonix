@@ -1,4 +1,3 @@
-// src/rasa.js
 const axios = require('axios');
 
 // Função para se comunicar com o Rasa e obter uma resposta de acordo com o contexto
